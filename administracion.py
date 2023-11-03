@@ -1,5 +1,6 @@
 import csv
 import os
+from tabulate import tabulate
 
 #funciones agregar y quitar propiedad
 
@@ -7,12 +8,13 @@ def agregar_propiedad():
     codigo = int(input('Ingrese el codigo de la propiedad: '))
     barrio = input('Ingrese el barrio: ')
     direccion = input('Ingrese la direccion: ')
+    # validador_domicilio()
     ambientes = int(input('Ingrese la cantidad de ambientes: '))
     precio = int(input('Ingrese el precio: '))
     superficie = int(input('Ingrese la superficie: '))
     tipo = input('Ingrese el tipo de propiedad: ')
 
-    with open('propiedades.csv', 'a', newline='') as file:                  #a es append, agrega al final del archivo. porque w sobreescribe
+    with open('propiedades.csv', 'a', newline='') as file:                  #a es append, agrega al final del archivo. porque w sobreescribe todo el archivo
         writer = csv.writer(file, delimiter=";")
         writer.writerow([codigo, barrio, direccion, ambientes, precio, superficie, tipo])
     print('-----------------------------')
@@ -23,8 +25,10 @@ def quitar_propiedad():
     with open('propiedades.csv', 'r') as file:
         reader = csv.reader(file, delimiter=";")
         rows = list(reader)
+    lista_completa = []
     for row in rows:
-        print(row)
+        lista_completa.append(row)
+    print(tabulate(lista_completa, headers=["Código", "Barrio", "Dirección", "Ambientes", "Precio", "Superficie", "Tipo"], tablefmt="fancy_grid"))
     direccion = input('Ingrese la direccion de la propiedad que desea eliminar: ')
     direccion = direccion.lower()
     for row in rows:
@@ -33,14 +37,14 @@ def quitar_propiedad():
             with open('propiedades.csv', 'w', newline='') as file:
                 writer = csv.writer(file, delimiter=";")
                 writer.writerows(rows)
-                print('-----------------------------')
+                print('------------------------------------')
                 print("Propiedad eliminada exitosamente.")
-                print('-----------------------------')
+                print('------------------------------------')
                 break
     else:
-        print('-----------------------------')
+        print('-------------------------------------------')
         print("No se encontró la propiedad especificada.")
-        print('-----------------------------')
+        print('-------------------------------------------')
 
 #funcion para limpiar la pantalla
 
@@ -50,3 +54,18 @@ def limpiar_consola():
         os.system('cls') #en windows
     else:
         os.system('clear') #en linux/mac
+
+
+#validador para no agregar dos propiedades iguales
+# def validador_domicilio():
+#     with open ('propiedades.csv', 'r') as file:
+#         reader = csv.reader(file, delimiter=";")
+#         chequeo_domicilio = list(reader)
+#     for direccion in chequeo_domicilio:
+#         if direccion.lower() == chequeo_domicilio[2].lower():
+#             print('-------------------------------------------')
+#             print('La propiedad ya se encuentra en la base de datos.')
+#             print('-------------------------------------------')
+#             direccion = input('Ingrese la direccion nuevamente: ')
+#         else:
+#             return direccion

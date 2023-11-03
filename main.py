@@ -1,14 +1,19 @@
 import csv
-from citas import agendar_cita, borrar_cita, ver_citas_agendadas, mostrar_citas_disponibles
-from filtros import mostrar_propiedades, filtrar_por_barrio, filtrar_por_ambientes, filtrar_por_precio, menu_filtrado
+from citas import agendar_cita, borrar_cita, ver_citas_agendadas, mostrar_citas_disponibles, contador_visitas_propiedades
+from filtros import mostrar_propiedades, filtrar_por_barrio, filtrar_por_ambientes, filtrar_por_precio, menu_filtrado, vaciar_busqueda_filtrada
 from administracion import agregar_propiedad, quitar_propiedad
+from tabulate import tabulate
 import os
+
+#pip install tabulate
+#or
+#pip3 install tabulate
 
 # main menu
 
 def main():
     while True:
-        print('-----------------------------')
+        print('-------------------------------------------')
         print('Bienvenido al menú de gestión inmobiliaria')
         print('Ingrese 1 si desea agregar una propiedad')
         print('Ingrese 2 si desea buscar una propiedad')
@@ -16,12 +21,14 @@ def main():
         print('Ingrese 4 si desea ver citas agendadas')
         print('Ingrese 5 para borrar una cita')
         print('Ingrese 6 si desea eliminar una propiedad')
+        print('Ingrese 7 para ver la cantidad de visitas por propiedad')
         print('Ingrese 0 para salir')
-        print('-----------------------------')
+        print('-------------------------------------------')
         
         menu = int(input('Elija una opción: '))
 
         if menu == 0:
+            vaciar_busqueda_filtrada()           #vacía el archivo de búsqueda filtrada para que no se acumulen los resultados la proxima vez que se use el programa
             break
         elif menu == 1:
             agregar_propiedad()
@@ -35,13 +42,15 @@ def main():
             borrar_cita()
         elif menu ==6:
             quitar_propiedad()
+        elif menu ==7:
+            contador_visitas_propiedades()
         else:
-            print('-----------------------------')
+            print('----------------------------------------------')
             print('Opción no válida. Elija una opción del menú.')
-            print('-----------------------------')
-    print('-----------------------------')
+            print('----------------------------------------------')
+    print('------------------------------------------------------')
     print('Gracias por usar el sistema de gestión inmobiliaria.')
-    print('-----------------------------')
+    print('------------------------------------------------------')
 
 if __name__ == "__main__":
     main()

@@ -1,13 +1,16 @@
 import csv
 import os
 from administracion import limpiar_consola
+from tabulate import tabulate
 
 #funciones filtros
 
 def mostrar_propiedades(lista_propiedades):
     limpiar_consola()
+    resultado = []
     for propiedad in lista_propiedades:
-        print(propiedad)
+        resultado.append(propiedad)
+    print(tabulate(resultado, headers=["Código", "Barrio", "Dirección", "Ambientes", "Precio", "Superficie", "Tipo"], tablefmt="fancy_grid"))
 
 def filtrar_por_barrio(lista_propiedades, barrio):
     return [propiedad for propiedad in lista_propiedades if propiedad[1] == barrio]
@@ -35,13 +38,13 @@ def menu_filtrado():
 
         eleccion = None
         while eleccion != '0':
-            print('-----------------------------')
+            print('-----------------------------------------------------------------------')
             print('Desea agregar un filtro?')
             print('Ingrese 1 para filtrar por barrio')
             print('Ingrese 2 para filtrar por cantidad de ambientes')
             print('Ingrese 3 para filtrar por precio')
             print('Ingrese 0 para ver los resultados')
-            print('-----------------------------')
+            print('-----------------------------------------------------------------------')
             eleccion = input('Elija una opción: ')
 
             if eleccion == '1':
@@ -64,7 +67,29 @@ def menu_filtrado():
     if filtros:
         print('Resultados:')
         mostrar_propiedades(filtros)
+        escritorcsv(filtros)
     else:
-        print('-----------------------------')
+        print('-------------------------------------------------------------------------')
         print('No se encontraron propiedades que cumplan con los filtros seleccionados.')
-        print('-----------------------------')
+        print('-------------------------------------------------------------------------')
+
+#funcion para crear un archivo con los resultados de la busqueda
+
+def escritorcsv(filtros):
+    archivo = input('Desea guardar los resultados de su búsqueda en un archivo? 1- Sí, 2- No:')
+    if archivo == '1':
+        with open('busquedafiltrada.csv', 'w', newline='') as file:
+            writer = csv.writer(file, delimiter=";")
+            writer.writerows(filtros)
+            print('-----------------------------------------------------------')
+            print('Se ha creado un archivo con los resultados de su búsqueda.')
+            print('-----------------------------------------------------------')
+    else:
+        print('-----------------------------------------------------------')
+        print('No se ha creado un archivo con los resultados de su búsqueda.')
+        print('-----------------------------------------------------------')
+
+def vaciar_busqueda_filtrada():
+    with open('busquedafiltrada.csv', 'w', newline='') as file:
+        writer = csv.writer(file, delimiter=";")
+        writer.writerows([])
