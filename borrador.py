@@ -156,3 +156,68 @@ def contador_visitas_propiedades():
 #  [(date_1 + datetime.timedelta(days=i)) for i in range(0,31)] # objetos datetime
 #  [(date_1 + datetime.timedelta(days=i)).strftime("%Y-%m-%d") for i in range(0,31)] # string
 # datetime.date.today() # dia actual
+
+
+# date_1 = datetime.date.strptime("01/11/2023", "%d/%m/%Y") 
+# [(date_1 + datetime.timedelta(days=i)).strftime("%Y-%m-%d") for i in range(0,31)] # string
+# #  [(date_1 + datetime.timedelta(days=i)) for i in range(0,31)] # objetos datetime
+# #  [(date_1 + datetime.timedelta(days=i)).strftime("%Y-%m-%d") for i in range(0,31)] # string
+# # datetime.date.today() # dia actual
+
+
+
+# def contador_visitas_propiedades():
+#     with open('citas.csv', 'r') as file:
+#         reader = csv.reader(file, delimiter=";")
+#         citas = list(reader)
+
+#     visitas_por_propiedad = []
+
+#     # Cargar las propiedades
+#     with open('propiedades.csv', 'r') as file:
+#         reader = csv.reader(file, delimiter=";")
+#         propiedades = list(reader)
+
+#     # Inicializar la lista de visitas por propiedad
+#     for propiedad in propiedades:
+#         visitas_por_propiedad.append([propiedad[4], 0])  # Supongo que la dirección de la propiedad está en la columna 4
+
+#     # Contar las visitas por propiedad
+#     for cita in citas:
+#         if cita[2] != "":
+#             direccion = cita[4]  # Supongo que la dirección de la propiedad está en la columna 4
+#             for visita in visitas_por_propiedad:
+#                 if visita[0] == direccion:
+#                     visita[1] += 1
+#                     break
+
+#     # Agregar las visitas a las propiedades
+#     for propiedad, visitas in zip(propiedades, visitas_por_propiedad):
+#         propiedad.append(visitas[1])
+
+#     # Ordenar las propiedades por barrio
+#     propiedades.sort(key=lambda propiedad: propiedad[1])
+
+#     # Crear un archivo CSV con los resultados
+#     with open('visitas.csv', 'w', newline='') as file:
+#         writer = csv.writer(file, delimiter=";")
+#         writer.writerows(propiedades)
+
+#     print('---------------------------------------')
+#     print('Archivo de visitas creado exitosamente.')
+#     print('---------------------------------------')
+
+
+
+
+
+# def generar_fechas_horarios():
+#     fechas_horarios = []
+#     fecha_inicial = datetime.datetime.now()
+#     for i in range(30):  # Generar citas para los próximos 30 días
+#         fecha = fecha_inicial + datetime.timedelta(days=i)
+#         for hora in range(8, 18, 2):  # Horarios desde las 8 AM hasta las 6 PM cada 2 horas
+#             horario = f"{hora:02d}:00"
+#             fechas_horarios.append((fecha.strftime("%d/%m/%Y"), horario))
+#     return fechas_horarios
+
