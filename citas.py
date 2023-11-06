@@ -164,7 +164,7 @@ def contador_visitas():
     print('Archivo de visitas creado exitosamente.')
     print('---------------------------------------')
 
-# def validador_direccion(direccion):
+# def validador_visita(direccion):
         
 #     direcciones_disponibles = []
 #     with open('propiedades.csv', 'r') as file:

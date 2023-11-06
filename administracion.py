@@ -8,7 +8,7 @@ def agregar_propiedad():
     codigo = int(input('Ingrese el codigo de la propiedad: '))
     barrio = input('Ingrese el barrio: ')
     direccion = input('Ingrese la direccion: ')
-    # validador_domicilio()
+    validador_direccion(direccion)
     ambientes = int(input('Ingrese la cantidad de ambientes: '))
     precio = int(input('Ingrese el precio: '))
     superficie = int(input('Ingrese la superficie: '))
@@ -55,17 +55,15 @@ def limpiar_consola():
     else:
         os.system('clear') #en linux/mac
 
+#funcion para validar la direccion
 
-#validador para no agregar dos propiedades iguales
-# def validador_domicilio():
-#     with open ('propiedades.csv', 'r') as file:
-#         reader = csv.reader(file, delimiter=";")
-#         chequeo_domicilio = list(reader)
-#     for direccion in chequeo_domicilio:
-#         if direccion.lower() == chequeo_domicilio[2].lower():
-#             print('-------------------------------------------')
-#             print('La propiedad ya se encuentra en la base de datos.')
-#             print('-------------------------------------------')
-#             direccion = input('Ingrese la direccion nuevamente: ')
-#         else:
-#             return direccion
+def validador_direccion(direccion):                                 #funciona mas o menos, porque itera una sola vez
+    with open('propiedades.csv', 'r') as file:                      #la lista de propiedades, y si ingresamos una direccion nueva
+        reader = csv.reader(file, delimiter=";")                    #capaz ya la itero y no la encuentra
+        lista_propiedades = list(reader)
+    for i in lista_propiedades:
+        while i[2].lower() == direccion.lower():
+            print ("La dirección ya existe")
+            direccion = input("Ingrese la dirección nuevamente: ")
+    return True
+

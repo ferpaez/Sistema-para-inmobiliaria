@@ -93,3 +93,4 @@ def vaciar_busqueda_filtrada():
     with open('busquedafiltrada.csv', 'w', newline='') as file:
         writer = csv.writer(file, delimiter=";")
         writer.writerows([])
+
