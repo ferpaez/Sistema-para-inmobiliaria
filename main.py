@@ -1,5 +1,5 @@
 import csv
-from citas import agendar_cita, borrar_cita, ver_citas_agendadas, mostrar_citas_disponibles, contador_visitas, citas
+from citas import agendar_cita, borrar_cita, ver_citas_agendadas, mostrar_citas_disponibles, contador_visitas, citas, descargar_agenda
 from filtros import mostrar_propiedades, filtrar_por_barrio, filtrar_por_ambientes, filtrar_por_precio, menu_filtrado, vaciar_busqueda_filtrada
 from administracion import agregar_propiedad, quitar_propiedad
 from tabulate import tabulate
@@ -23,6 +23,7 @@ def main():
         print('Ingrese 6 si desea eliminar una propiedad')
         print('Ingrese 7 para ver la cantidad de visitas por propiedad')
         print('Ingrese 8 para eliminiar la agenda actual y comenzar un nuevo mes')
+        print('Ingrese 9 para descargar la agenda por dia, semana o mes')
         print('Ingrese 0 para salir')
         print('-------------------------------------------')
         
@@ -47,6 +48,8 @@ def main():
             contador_visitas()
         elif menu == 8:
             citas()
+        elif menu == 9:
+            descargar_agenda()
         else:
             print('----------------------------------------------')
             print('Opción no válida. Elija una opción del menú.')

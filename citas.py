@@ -6,25 +6,27 @@ from tabulate import tabulate
 CITAS = 'citas.csv'
 
 def citas():                                #crea el archivo .csv para citas de todo un mes
-    confirmaciones = input(int('Desea inciar un nuevo mes de citas? se elminaran todas las citas almacenadas 1-Si 2-No'))
+    confirmaciones = input(int('Desea inciar un nuevo mes de citas? se elminaran todas las citas almacenadas 1-Si 2-No: '))
     if confirmaciones == 1:
-        fecha_inicio = datetime.date.today()
-        fecha_fin = fecha_inicio + datetime.timedelta(days=30)
-        horarios = ["09:00", "12:00", "15:00"]
-        citas_programadas = []
+        contrasena = input('Ingrese la contraseña para iniciar un nuevo mes de citas: ') #contrasena aguanteboca
+        if contrasena == 'aguanteboca':
+            fecha_inicio = datetime.date.today()
+            fecha_fin = fecha_inicio + datetime.timedelta(days=30)
+            horarios = ["09:00", "12:00", "15:00"]
+            citas_programadas = []
 
-        fecha_actual = fecha_inicio                         # Itera a través de las fechas y horarios
-        while fecha_actual <= fecha_fin:
-            for horario in horarios:
-                cita = [fecha_actual.strftime("%d/%m/%Y"), horario, "", "", ""]
-                citas_programadas.append(cita)
-            fecha_actual += datetime.timedelta(days=1)
+            fecha_actual = fecha_inicio                         # Itera a través de las fechas y horarios
+            while fecha_actual <= fecha_fin:
+                for horario in horarios:
+                    cita = [fecha_actual.strftime("%d/%m/%Y"), horario, "", "", ""]
+                    citas_programadas.append(cita)
+                fecha_actual += datetime.timedelta(days=1)
 
-        with open('citas.csv', 'w', newline='') as file:
-            writer = csv.writer(file, delimiter=";")
-            writer.writerows(citas_programadas)
+            with open('citas.csv', 'w', newline='') as file:
+                writer = csv.writer(file, delimiter=";")
+                writer.writerows(citas_programadas)
 
-        print("Citas programadas con éxito.")
+            print("Citas programadas con éxito.")
 
 def mostrar_citas_disponibles():
     limpiar_consola()
@@ -69,7 +71,7 @@ def agendar_cita():
                 mail = input("Ingrese su mail: ")
                 direccion = input("Ingrese la direccion que desea visitar: ")
                 
-                # direccuin = validador_direccion(visita)
+                # direccion = validador_direccion(direccion)
 
                 i[2] = nombre
                 i[3] = mail
@@ -157,8 +159,66 @@ def contador_visitas():
         writer = csv.writer(file, delimiter=";")
         writer.writerows(propiedades)
 
+    print(tabulate(propiedades, headers=["Código", "Barrio", "Dirección", "Ambientes", "Precio", "Superficie", "Tipo", "Visitas"], tablefmt="fancy_grid"))
     print('---------------------------------------')
     print('Archivo de visitas creado exitosamente.')
     print('---------------------------------------')
 
-    print(tabulate(propiedades, headers=["Código", "Barrio", "Dirección", "Ambientes", "Precio", "Superficie", "Tipo", "Visitas"], tablefmt="fancy_grid"))
+# def validador_direccion(direccion):
+        
+#     direcciones_disponibles = []
+#     with open('propiedades.csv', 'r') as file:
+#         reader = csv.reader(file, delimiter=";")
+#         propiedades_list = list(reader)
+
+#         for i in propiedades_list:
+#             direccion = i[2].lower() 
+#             direcciones_disponibles.append(direccion)
+
+#         direccion = input("Ingrese la dirección que desea visitar: ")
+#         for _ in range(len(direcciones_disponibles)):
+#             if direccion in direcciones_disponibles:
+#                 return direccion
+#                 print('La direccion es valida')
+#             else:
+#                 print("La dirección ingresada no es válida. Por favor, ingrese una dirección válida.")
+
+
+def descargar_agenda():
+    periodo = input('Descargar agenda del día, semana o mes (ingrese "dia", "semana" o "mes"): ')
+    periodo = periodo.lower()
+    if periodo not in ['dia', 'semana', 'mes']:
+        print('Periodo de agenda no válido. Utilice "dia", "semana" o "mes".')
+        return
+    with open('citas.csv', 'r') as file:
+        reader = csv.reader(file, delimiter=";")
+        citas = list(reader)
+
+    citas_filtradas = []
+    fecha_deseada = input('Ingrese la fecha deseada (dd/mm/yyyy): ')
+    fecha_deseada = datetime.datetime.strptime(fecha_deseada, "%d/%m/%Y").date()
+    for i in citas:
+        fecha_cita = datetime.datetime.strptime(i[0], "%d/%m/%Y").date()
+        if fecha_cita == fecha_deseada and periodo == 'dia' and i[2] != "":
+            citas_filtradas.append(i)
+        elif fecha_cita == fecha_deseada and periodo == 'semana':
+            for _ in range(7):                                                           # Itera a través de los 7 días de la semana
+                for i in citas:
+                    if i[0] == fecha_deseada.strftime("%d/%m/%Y") and i[2] != "":        # Itera para chequear los tres horarios del dia y verifica si la cita esta ocupada
+                        citas_filtradas.append(i)
+                fecha_deseada = fecha_deseada + datetime.timedelta(days=1)
+        elif fecha_cita == fecha_deseada and periodo == 'mes':
+            for _ in range(30):                                                           
+                for i in citas:
+                    if i[0] == fecha_deseada.strftime("%d/%m/%Y") and i[2] != "":      
+                        citas_filtradas.append(i)
+                fecha_deseada = fecha_deseada + datetime.timedelta(days=1)
+
+    nombre_archivo = f'agenda_{periodo}.csv'
+    with open(nombre_archivo, 'w', newline='') as file:
+        writer = csv.writer(file, delimiter=";")
+        writer.writerows(citas_filtradas)
+
+    limpiar_consola()
+    print(tabulate(citas_filtradas, headers=["Fecha", "Horario", "Nombre", "Mail", "Direccion"], tablefmt="fancy_grid"))
+    print(f'Archivo de agenda del {periodo} generado exitosamente: {nombre_archivo}')

@@ -221,3 +221,20 @@ def contador_visitas_propiedades():
 #             fechas_horarios.append((fecha.strftime("%d/%m/%Y"), horario))
 #     return fechas_horarios
 
+# def validador_direccion(direccion):
+#     direcciones_disponibles = []
+
+#     with open('propiedades.csv', 'r') as file:
+#         reader = csv.reader(file, delimiter=";")
+#         propiedades_list = list(reader)
+
+#         for i in propiedades_list:
+#             dir_propiedad = i[2].lower()
+#             direcciones_disponibles.append(dir_propiedad)
+
+#         if direccion in direcciones_disponibles:
+#             print('La dirección es válida')
+#             return direccion
+#         else:
+#             print("La dirección ingresada no es válida. Por favor, ingrese una dirección válida.")
+#             direccion = input("Ingrese la dirección que desea visitar: ")
