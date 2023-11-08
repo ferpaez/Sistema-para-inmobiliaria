@@ -22,7 +22,7 @@ def citas():                                #crea el archivo .csv para citas de 
                     citas_programadas.append(cita)
                 fecha_actual += datetime.timedelta(days=1)
 
-            with open('citas.csv', 'w', newline='') as file:
+            with open('citas.csv', 'a', newline='') as file:
                 writer = csv.writer(file, delimiter=";")
                 writer.writerows(citas_programadas)
 
@@ -178,8 +178,8 @@ def contador_visitas():
 #         direccion = input("Ingrese la dirección que desea visitar: ")
 #         for _ in range(len(direcciones_disponibles)):
 #             if direccion in direcciones_disponibles:
-#                 return direccion
 #                 print('La direccion es valida')
+#                 return direccion
 #             else:
 #                 print("La dirección ingresada no es válida. Por favor, ingrese una dirección válida.")
 
@@ -222,3 +222,4 @@ def descargar_agenda():
     limpiar_consola()
     print(tabulate(citas_filtradas, headers=["Fecha", "Horario", "Nombre", "Mail", "Direccion"], tablefmt="fancy_grid"))
     print(f'Archivo de agenda del {periodo} generado exitosamente: {nombre_archivo}')
+
