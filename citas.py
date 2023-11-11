@@ -3,30 +3,61 @@ import datetime
 from filtros import mostrar_propiedades
 from administracion import limpiar_consola
 from tabulate import tabulate
-CITAS = 'citas.csv'
 
 def citas():                                #crea el archivo .csv para citas de todo un mes
-    confirmaciones = int(input('Desea inciar un nuevo mes de citas? se elminaran todas las citas almacenadas 1-Si 2-No: '))
-    if confirmaciones == 1:
-        contrasena = input('Ingrese la contraseña para iniciar un nuevo mes de citas: ') #contrasena aguanteboca
-        if contrasena == 'aguanteboca':
-            fecha_inicio = datetime.date.today()
-            fecha_fin = fecha_inicio + datetime.timedelta(days=30)
-            horarios = ["09:00", "12:00", "15:00"]
-            citas_programadas = []
+    contrasena = input('Ingrese la contraseña para iniciar un nuevo mes de citas: ') #contrasena aguanteboca
+    limpiar_consola()
+    if contrasena == 'aguanteboca':
+        fecha_inicio = datetime.date.today()
+        fecha_fin = fecha_inicio + datetime.timedelta(days=30)
+        horarios = ["09:00", "12:00", "15:00"]
+        citas_programadas = []
 
-            fecha_actual = fecha_inicio                         # Itera a través de las fechas y horarios
-            while fecha_actual <= fecha_fin:
-                for horario in horarios:
-                    cita = [fecha_actual.strftime("%d/%m/%Y"), horario, "", "", ""]
-                    citas_programadas.append(cita)
-                fecha_actual += datetime.timedelta(days=1)
+        fecha_actual = fecha_inicio                         # Itera a través de las fechas y horarios
+        while fecha_actual <= fecha_fin:
+            for horario in horarios:
+                cita = [fecha_actual.strftime("%d/%m/%Y"), horario, "", "", ""]
+                citas_programadas.append(cita)
+            fecha_actual += datetime.timedelta(days=1)
 
-            with open('citas.csv', 'a', newline='') as file:
-                writer = csv.writer(file, delimiter=";")
-                writer.writerows(citas_programadas)
+        
+        with open('citas.csv', 'r') as file:                 
+            reader = csv.reader(file, delimiter=";")               
+            citas = list(reader)
+            
+        fechas_existentes = []                                  #guardo las fechas existentes en una lista para despues comprar con citas_faltantes, esto para que cuando hago .append no se repitan las fechas
+        for i in citas:
+            fechas_existentes.append(i[0])
 
-            print("Citas programadas con éxito.")
+        citas_faltantes = []
+        for cita in citas_programadas:
+            if cita[0] not in fechas_existentes:
+                citas_faltantes.append(cita)
+
+
+
+        with open('citas.csv', 'a', newline='') as file:
+            writer = csv.writer(file, delimiter=";")
+            writer.writerows(citas_faltantes)
+        
+        # with open('citas.csv', 'r') as file:
+        #     reader = csv.reader(file, delimiter=";")
+        #     citas = list(reader)
+
+        # fechas_existentes = []                    #guarda las fechas existentes en una lista para despues comparar con citas_faltantes
+        # for i in citas:                           #para que cuando hace .append no se repitan las fechas
+        #     fechas_existentes.append(i[0])
+
+        # citas_faltantes = []
+        # for i in citas_programadas:
+        #     if cita[0] not in fechas_existentes:
+        #         citas_faltantes.append(cita)        
+
+        # with open('citas.csv', 'a', newline='') as file:
+        #     writer = csv.writer(file, delimiter=";")
+        #     writer.writerows(citas_faltantes)
+
+        print("Citas programadas con éxito.")
 
 def mostrar_citas_disponibles():
     limpiar_consola()
@@ -61,7 +92,7 @@ def agendar_cita():
         dia = dia.lower()
         horario = input("Ingrese el horario de la cita (hh:mm): ")
 
-        with open(CITAS, 'r') as file:
+        with open('citas.csv', 'r') as file:
             reader = csv.reader(file, delimiter=";")
             citas = list(reader)
 
@@ -206,7 +237,7 @@ def descargar_agenda():
                 for i in citas:
                     if i[0] == fecha_deseada.strftime("%d/%m/%Y") and i[2] != "":        # Itera para chequear los tres horarios del dia y verifica si la cita esta ocupada
                         citas_filtradas.append(i)
-                fecha_deseada = fecha_deseada + datetime.timedelta(days=1)
+                fecha_deseada = fecha_deseada + datetime.timedelta(days=i)
         elif fecha_cita == fecha_deseada and periodo == 'mes':
             for _ in range(30):                                                           
                 for i in citas:
@@ -222,4 +253,3 @@ def descargar_agenda():
     limpiar_consola()
     print(tabulate(citas_filtradas, headers=["Fecha", "Horario", "Nombre", "Mail", "Direccion"], tablefmt="fancy_grid"))
     print(f'Archivo de agenda del {periodo} generado exitosamente: {nombre_archivo}')
-

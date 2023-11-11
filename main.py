@@ -22,7 +22,7 @@ def main():
         print('Ingrese 5 para borrar una cita')
         print('Ingrese 6 si desea eliminar una propiedad')
         print('Ingrese 7 para ver la cantidad de visitas por propiedad')
-        print('Ingrese 8 para eliminiar la agenda actual y comenzar un nuevo mes')
+        print('Ingrese 8 para agregar un nuevo mes de agenda a partir de hoy')
         print('Ingrese 9 para descargar la agenda por dia, semana o mes')
         print('Ingrese 0 para salir')
         print('-------------------------------------------')
