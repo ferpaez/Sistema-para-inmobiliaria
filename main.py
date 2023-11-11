@@ -16,14 +16,14 @@ def main():
         print('-------------------------------------------')
         print('Bienvenido al menú de gestión inmobiliaria')
         print('Ingrese 1 si desea agregar una propiedad')
-        print('Ingrese 2 si desea buscar una propiedad')
-        print('Ingrese 3 si desea agendar una cita')
-        print('Ingrese 4 si desea ver citas agendadas')
-        print('Ingrese 5 para borrar una cita')
-        print('Ingrese 6 si desea eliminar una propiedad')
-        print('Ingrese 7 para ver la cantidad de visitas por propiedad')
-        print('Ingrese 8 para agregar un nuevo mes de agenda a partir de hoy')
-        print('Ingrese 9 para descargar la agenda por dia, semana o mes')
+        print('Ingrese 2 si desea eliminar una propiedad')
+        print('Ingrese 3 si desea buscar una propiedad')
+        print('Ingrese 4 si desea agendar una cita')
+        print('Ingrese 5 si desea ver citas agendadas')
+        print('Ingrese 6 para borrar una cita')
+        print('Ingrese 7 para descargar la agenda por dia, semana o mes')
+        print('Ingrese 8 para ver la cantidad de visitas por propiedad')
+        print('Ingrese 9 para agregar un nuevo mes de agenda a partir de hoy')
         print('Ingrese 0 para salir')
         print('-------------------------------------------')
         
@@ -35,21 +35,22 @@ def main():
         elif menu == 1:
             agregar_propiedad()
         elif menu == 2:
-            menu_filtrado()
-        elif menu == 3:
-            agendar_cita()
-        elif menu == 4:
-            ver_citas_agendadas()
-        elif menu == 5:
-            borrar_cita()
-        elif menu ==6:
             quitar_propiedad()
-        elif menu ==7:
-            contador_visitas()
-        elif menu == 8:
-            citas()
-        elif menu == 9:
+        elif menu == 3:
+            menu_filtrado()
+        elif menu == 4:
+            agendar_cita()
+        elif menu == 5:
+            ver_citas_agendadas()
+        elif menu == 6:
+            borrar_cita()
+        elif menu == 7:
             descargar_agenda()
+        elif menu == 8:
+            contador_visitas()
+        elif menu == 9:
+            citas()
+
         else:
             print('----------------------------------------------')
             print('Opción no válida. Elija una opción del menú.')
