@@ -49,7 +49,7 @@ def quitar_propiedad():
 #funcion para limpiar la pantalla
 
 def limpiar_consola():
-    sistema = os.name
+    sistema = os.name()
     if sistema == 'nt':                                 #si es windows devuelve nt, si es linux o mac devuelve posix
         os.system('cls') #en windows
     else:
