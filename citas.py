@@ -6,7 +6,7 @@ from tabulate import tabulate
 CITAS = 'citas.csv'
 
 def citas():                                #crea el archivo .csv para citas de todo un mes
-    confirmaciones = input(int('Desea inciar un nuevo mes de citas? se elminaran todas las citas almacenadas 1-Si 2-No: '))
+    confirmaciones = int(input('Desea inciar un nuevo mes de citas? se elminaran todas las citas almacenadas 1-Si 2-No: '))
     if confirmaciones == 1:
         contrasena = input('Ingrese la contraseña para iniciar un nuevo mes de citas: ') #contrasena aguanteboca
         if contrasena == 'aguanteboca':
