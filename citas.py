@@ -228,22 +228,22 @@ def descargar_agenda():
     citas_filtradas = []
     fecha_deseada = input('Ingrese la fecha deseada (dd/mm/yyyy): ')
     fecha_deseada = datetime.datetime.strptime(fecha_deseada, "%d/%m/%Y").date()
-    for i in citas:
-        fecha_cita = datetime.datetime.strptime(i[0], "%d/%m/%Y").date()
-        if fecha_cita == fecha_deseada and periodo == 'dia' and i[2] != "":
-            citas_filtradas.append(i)
-        elif fecha_cita == fecha_deseada and periodo == 'semana':
-            for _ in range(7):                                                           # Itera a través de los 7 días de la semana
-                for i in citas:
-                    if i[0] == fecha_deseada.strftime("%d/%m/%Y") and i[2] != "":        # Itera para chequear los tres horarios del dia y verifica si la cita esta ocupada
-                        citas_filtradas.append(i)
-                fecha_deseada = fecha_deseada + datetime.timedelta(days=i)
-        elif fecha_cita == fecha_deseada and periodo == 'mes':
-            for _ in range(30):                                                           
-                for i in citas:
-                    if i[0] == fecha_deseada.strftime("%d/%m/%Y") and i[2] != "":      
-                        citas_filtradas.append(i)
-                fecha_deseada = fecha_deseada + datetime.timedelta(days=1)
+
+    if periodo == 'dia':
+        for i in citas:
+            cita_fecha = datetime.datetime.strptime(i[0], "%d/%m/%Y").date()
+            if cita_fecha == fecha_deseada and i[2] != "":
+                citas_filtradas.append(i)
+    elif periodo == 'semana':                                                           #si se encuentra entre el dia ingresado y los seis dias posteriores lo agrega a la lista.
+        for i in citas:
+            cita_fecha = datetime.datetime.strptime(i[0], "%d/%m/%Y").date()
+            if fecha_deseada <= cita_fecha <= fecha_deseada + datetime.timedelta(days=6) and i[2] != "":
+                citas_filtradas.append(i)
+    elif periodo == 'mes':
+        for i in citas:
+            cita_fecha = datetime.datetime.strptime(i[0], "%d/%m/%Y").date()
+            if fecha_deseada.month == cita_fecha.month and i[2] != "":                          #si comparten el mes lo agrega a la lisa
+                citas_filtradas.append(i)
 
     nombre_archivo = f'agenda_{periodo}.csv'
     with open(nombre_archivo, 'w', newline='') as file:
@@ -253,3 +253,4 @@ def descargar_agenda():
     limpiar_consola()
     print(tabulate(citas_filtradas, headers=["Fecha", "Horario", "Nombre", "Mail", "Direccion"], tablefmt="fancy_grid"))
     print(f'Archivo de agenda del {periodo} generado exitosamente: {nombre_archivo}')
+

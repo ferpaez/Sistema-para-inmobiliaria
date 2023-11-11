@@ -238,3 +238,55 @@ def contador_visitas_propiedades():
 #         else:
 #             print("La dirección ingresada no es válida. Por favor, ingrese una dirección válida.")
 #             direccion = input("Ingrese la dirección que desea visitar: ")
+
+import csv
+import datetime
+
+def descargar_agenda():
+    periodo = input('Descargar agenda del día, semana o mes (ingrese "dia", "semana" o "mes"): ')
+    periodo = periodo.lower()
+    if periodo not in ['dia', 'semana', 'mes']:
+        print('Periodo de agenda no válido. Utilice "dia", "semana" o "mes".')
+        return
+    
+    with open('citas.csv', 'r') as file:
+        reader = csv.reader(file, delimiter=";")
+        citas = list(reader)
+
+    citas_filtradas = []
+    fecha_deseada = input('Ingrese la fecha deseada (dd/mm/yyyy): ')
+    fecha_deseada = datetime.datetime.strptime(fecha_deseada, "%d/%m/%Y").date()
+
+    if periodo == 'dia':
+        for cita in citas:
+            cita_fecha = datetime.datetime.strptime(cita[0], "%d/%m/%Y").date()
+            if cita_fecha == fecha_deseada and cita[2] != "":
+                citas_filtradas.append(cita)
+    elif periodo == 'semana':
+        for cita in citas:
+            cita_fecha = datetime.datetime.strptime(cita[0], "%d/%m/%Y").date()
+            if fecha_deseada <= cita_fecha <= fecha_deseada + datetime.timedelta(days=6) and cita[2] != "":
+                citas_filtradas.append(cita)
+    elif periodo == 'mes':
+        for cita in citas:
+            cita_fecha = datetime.datetime.strptime(cita[0], "%d/%m/%Y").date()
+            if fecha_deseada.month == cita_fecha.month and cita[2] != "":
+                citas_filtradas.append(cita)
+
+
+    for i in citas:
+        fecha_cita = datetime.datetime.strptime(i[0], "%d/%m/%Y").date()
+        if fecha_cita == fecha_deseada and periodo == 'dia' and i[2] != "":
+            citas_filtradas.append(i)
+        elif fecha_cita == fecha_deseada and periodo == 'semana':
+            for _ in range(7):                                                           # Itera a través de los 7 días de la semana
+                for i in citas:
+                    if i[0] == fecha_deseada.strftime("%d/%m/%Y") and i[2] != "":        # Itera para chequear los tres horarios del dia y verifica si la cita esta ocupada
+                        citas_filtradas.append(i)
+                fecha_deseada = fecha_deseada + datetime.timedelta(days=1)
+        elif fecha_cita == fecha_deseada and periodo == 'mes':
+            for _ in range(30):                                                           
+                for i in citas:
+                    if i[0] == fecha_deseada.strftime("%d/%m/%Y") and i[2] != "":      
+                        citas_filtradas.append(i)
+                fecha_deseada = fecha_deseada + datetime.timedelta(days=1)
