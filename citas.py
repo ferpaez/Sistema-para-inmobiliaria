@@ -6,40 +6,45 @@ from tabulate import tabulate
 from validadores import validador_direccion_citas
 
 def citas():                                #crea el archivo .csv para citas de todo un mes
-    contrasena = input('Ingrese la contraseña para iniciar un nuevo mes de citas: ') #contrasena admin123
+    while True:
+        contrasena = input('Ingrese la contraseña para iniciar un nuevo mes de citas: ') #contrasena admin123
+        if contrasena == 'admin123':
+            break
+        else:
+            print("La contraseña ingresada no es correcta, ingrese una contraseña valida.")
+    
     limpiar_consola()
-    if contrasena == 'admin123':
-        fecha_inicio = datetime.date.today()
-        fecha_fin = fecha_inicio + datetime.timedelta(days=30)
-        horarios = ["09:00", "12:00", "15:00"]
-        citas_programadas = []
+    fecha_inicio = datetime.date.today()
+    fecha_fin = fecha_inicio + datetime.timedelta(days=30)
+    horarios = ["09:00", "12:00", "15:00"]
+    citas_programadas = []
 
-        fecha_actual = fecha_inicio                         # Itera a través de las fechas y horarios
-        while fecha_actual <= fecha_fin:
-            for horario in horarios:
-                cita = [fecha_actual.strftime("%d/%m/%Y"), horario, "", "", ""]
-                citas_programadas.append(cita)
-            fecha_actual += datetime.timedelta(days=1)
+    fecha_actual = fecha_inicio                         # Itera a través de las fechas y horarios
+    while fecha_actual <= fecha_fin:
+        for horario in horarios:
+            cita = [fecha_actual.strftime("%d/%m/%Y"), horario, "", "", ""]
+            citas_programadas.append(cita)
+        fecha_actual += datetime.timedelta(days=1)
 
         
-        with open('citas.csv', 'r') as file:                 
-            reader = csv.reader(file, delimiter=";")               
-            citas = list(reader)
+    with open('citas.csv', 'r') as file:                 
+        reader = csv.reader(file, delimiter=";")               
+        citas = list(reader)
             
-        fechas_existentes = []                                  #guardo las fechas existentes en una lista para despues comprar con citas_faltantes, esto para que cuando hago .append no se repitan las fechas
-        for i in citas:
-            fechas_existentes.append(i[0])
+    fechas_existentes = []                                  #guardo las fechas existentes en una lista para despues comprar con citas_faltantes, esto para que cuando hago .append no se repitan las fechas
+    for i in citas:
+        fechas_existentes.append(i[0])
 
-        citas_faltantes = []
-        for cita in citas_programadas:
-            if cita[0] not in fechas_existentes:
-                citas_faltantes.append(cita)
+    citas_faltantes = []
+    for cita in citas_programadas:
+        if cita[0] not in fechas_existentes:
+            citas_faltantes.append(cita)
 
-        with open('citas.csv', 'a', newline='') as file:
-            writer = csv.writer(file, delimiter=";")
-            writer.writerows(citas_faltantes)
+    with open('citas.csv', 'a', newline='') as file:
+        writer = csv.writer(file, delimiter=";")
+        writer.writerows(citas_faltantes)
 
-        print("Citas programadas con éxito.")
+    print("Citas programadas con éxito.")
 
 def mostrar_citas_disponibles():
     limpiar_consola()
@@ -65,29 +70,42 @@ def mostrar_citas_disponibles():
 
 
 def agendar_cita():
-    cita = int(input("¿Desea agendar una cita? 1- Sí, 2- No: "))
-    #validador int
-    if cita == 1:
+    
+    while True:
+        cita = input("¿Desea agendar una cita? 1- Sí, 2- No: ")
+        if cita == '1' or cita == '2' or cita == 'si' or cita == 'no':
+            break
+        else:
+            print("La opción ingresada no es valida. Por favor, ingrese una opción valida.")
+
+    if cita == '1' or cita == 'si':
         mostrar_citas_disponibles()
         print('-----------------------------')
         dia = input("Ingrese la fecha de la cita (dd/mm/yyyy): ")
-        #validador entrada de datos
-        dia = dia.lower()
         horario = input("Ingrese el horario de la cita (hh:mm): ")
-        #validador entrada de datos
         with open('citas.csv', 'r') as file:
             reader = csv.reader(file, delimiter=";")
             citas = list(reader)
 
         for i in citas:
             if dia == i[0] and horario == i[1] and i[2] == "":
-                nombre = input("Ingrese su apellido y nombre: ")
-                        #validador entrada de datos
-                mail = input("Ingrese su mail: ")
-                        #validador entrada de datos 
-                
+                while True:
+                    nombre = input("Ingrese su apellido y nombre: ")                    #comprueba que el nombre no sea un numero
+                    if nombre != "" and not nombre.isdigit():
+                        break
+                    else:
+                        print("El formato de nombre ingresado no es valido. Por favor, ingrese un formato de nombre valido.")
+
+                while True:
+                    mail = input("Ingrese su mail: ")
+                    if "@" in mail and mail.endswith(".com"):
+                        break
+                    else:
+                        print("El mail ingresado no es valido. Por favor, ingrese un mail valido.")
+
                 while True: 
                     direccion = input("Ingrese la direccion que desea visitar: ")
+                    direccion = direccion.lower()
                     valida = validador_direccion_citas(direccion)
                     if valida != None:
                         break
@@ -114,30 +132,38 @@ def agendar_cita():
 
 
 def borrar_cita():
-    contrasena = input('Ingrese la contraseña para iniciar un nuevo mes de citas: ') #contrasena admin123
-    limpiar_consola()
-    if contrasena == 'admin123':
-        ver_citas_agendadas()
-        dia = input("Ingrese la fecha de la cita (dd/mm/yyyy): ")
-        dia = dia
-        horario = input("Ingrese el horario de la cita (hh:mm): ")
-        with open('citas.csv', 'r') as file:
-            reader = csv.reader(file, delimiter=";")
-            rows = list(reader)
-        for row in rows:
-            if dia == row[0] and horario == row[1]:
-                row[2] = ""
-                with open('citas.csv', 'w', newline='') as file:
-                    writer = csv.writer(file, delimiter=";")
-                    writer.writerows(rows)
-                    print('-----------------------------')
-                    print("Cita borrada exitosamente.")
-                    print('-----------------------------')
-                    break
+
+    while True:
+        contrasena = input('Ingrese la contraseña para borrar una cita: ') #contrasena admin123
+        if contrasena == 'admin123':
+            break
         else:
-            print('----------------------------------------------------------------')
-            print("No hay citas agendadas para el día y horario especificados.")
-            print('----------------------------------------------------------------')
+            print("La contraseña ingresada no es correcta, ingrese una contraseña valida.")
+    
+    ver_citas_agendadas()
+    dia = input("Ingrese la fecha de la cita (dd/mm/yyyy): ")
+    #validador dia
+    dia = dia
+    horario = input("Ingrese el horario de la cita (hh:mm): ")
+    #validador horario
+    with open('citas.csv', 'r') as file:
+        reader = csv.reader(file, delimiter=";")
+        rows = list(reader)
+    for row in rows:
+        if dia == row[0] and horario == row[1]:
+            row[2] = ""
+            with open('citas.csv', 'w', newline='') as file:
+                writer = csv.writer(file, delimiter=";")
+                writer.writerows(rows)
+                limpiar_consola()
+                print('-----------------------------')
+                print("Cita borrada exitosamente.")
+                print('-----------------------------')
+                break
+    else:
+        print('----------------------------------------------------------------')
+        print("No hay citas agendadas para el día y horario especificados.")
+        print('----------------------------------------------------------------')
 
 def ver_citas_agendadas():
     limpiar_consola()
@@ -189,11 +215,15 @@ def contador_visitas():
 
 
 def descargar_agenda():
-    periodo = input('Descargar agenda del día, semana o mes (ingrese "dia", "semana" o "mes"): ')
-    periodo = periodo.lower()
-    if periodo not in ['dia', 'semana', 'mes']:
-        print('Periodo de agenda no válido. Utilice "dia", "semana" o "mes".')
-        return
+    limpiar_consola()
+    while True:
+        periodo = input('Descargar agenda del día, semana o mes (ingrese "dia", "semana" o "mes"): ')
+        periodo = periodo.lower()
+        if periodo in ['dia', 'semana', 'mes']:
+            break
+        else:
+            print('Periodo de agenda no válido. Utilice "dia", "semana" o "mes".')
+    
     with open('citas.csv', 'r') as file:
         reader = csv.reader(file, delimiter=";")
         citas = list(reader)

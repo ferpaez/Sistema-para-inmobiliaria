@@ -1,7 +1,7 @@
 import csv
 from citas import agendar_cita, borrar_cita, ver_citas_agendadas, mostrar_citas_disponibles, contador_visitas, citas, descargar_agenda
 from filtros import mostrar_propiedades, filtrar_por_barrio, filtrar_por_ambientes, filtrar_por_precio, menu_filtrado, vaciar_busqueda_filtrada
-from administracion import agregar_propiedad, quitar_propiedad
+from administracion import agregar_propiedad, quitar_propiedad, limpiar_consola
 from tabulate import tabulate
 import os
 
@@ -27,31 +27,32 @@ def main():
         print('Ingrese 0 para salir')
         print('-------------------------------------------')
         
-        menu = int(input('Elija una opción: '))
+        menu = input('Elija una opción: ')
 
-        if menu == 0:
+        if menu == '0':
             vaciar_busqueda_filtrada()           #vacía el archivo de búsqueda filtrada para que no se acumulen los resultados la proxima vez que se use el programa
             break
-        elif menu == 1:
+        elif menu == '1':
             agregar_propiedad()
-        elif menu == 2:
+        elif menu == '2':
             quitar_propiedad()
-        elif menu == 3:
+        elif menu == '3':
             menu_filtrado()
-        elif menu == 4:
+        elif menu == '4':
             agendar_cita()
-        elif menu == 5:
+        elif menu == '5':
             ver_citas_agendadas()
-        elif menu == 6:
+        elif menu == '6':
             borrar_cita()
-        elif menu == 7:
+        elif menu == '7':
             descargar_agenda()
-        elif menu == 8:
+        elif menu == '8':
             contador_visitas()
-        elif menu == 9:
+        elif menu == '9':
             citas()
 
         else:
+            limpiar_consola()
             print('----------------------------------------------')
             print('Opción no válida. Elija una opción del menú.')
             print('----------------------------------------------')

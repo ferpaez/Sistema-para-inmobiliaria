@@ -1,16 +1,20 @@
 5555;centro;Ricardone 1200;1;140000;40;departamento;1
 9999;centro;Sarmiento 560;3;300000;300;casa;0
-1000;centro;Laprida 762;3;400000;400;casa;1
+1000;centro;Laprida 762;3;400000;400;casa;3
 1122;centro;San Martin 100;4;500000;60;departamento;0
-5645;echesortu;santa fe 3200;8;80000;80;casa;0
-3345;echesortu;rioja 3500;5;90000;90;casa;0
-6685;echesortu;san lorenzo 3333;4;100000;100;casa;0
+8766;centro;maipu 1510;4;980000;100;casa;0
+5645;echesortu;santa fe 3200;8;80000;80;casa;1
+3345;echesortu;rioja 3500;5;90000;90;casa;1
+6685;echesortu;san lorenzo 3333;4;100000;100;casa;1
 4444;martin;Juan Manuel de rosas 100;5;100000;90;departamento;1
 1223;martin;Buenos Aires 1266;3;120000;40;departamento;0
 1332;martin;Pelegrini 120;6;143000;50;departamento;0
-1111;pichincha;San lorenzo 2050;2;80000;40;departamento;3
+1111;pichincha;San lorenzo 2050;2;80000;40;departamento;4
 3333;pichincha;Alvear 100;4;100000;100;departamento;0
 6666;pichincha;Rodriguez 1254;1;150000;30;departamento;0
 7777;pichincha;Salta 1200;2;160000;52;departamento;0
 8888;pichincha;Espania 24;2;280000;250;casa;1
-7776;san pablo;reynoso 407;7;70000;70;departamento;0
+5644;pichincha;pichincha 120;2;45000;30;departamento;0
+1234;pichincha;urquiza 2030;2;150000;30;departamento;0
+5432;pichincha;catamarca 1900;4;450000;70;casa;0
+7776;san pablo;reynoso 407;7;70000;70;departamento;1

@@ -14,7 +14,7 @@ def agregar_propiedad():
             break
         else:
             limpiar_consola()
-            print("El codigo ingresado no es valido. Por favor, ingrese un código valido.")
+            print("El codigo ingresado no es valido o ya esta en uso. Por favor, ingrese un código valido.")
     
     while True:
         barrio = input('Ingrese el barrio: ')
@@ -75,22 +75,29 @@ def agregar_propiedad():
     print('Propiedad agregada con éxito')
     print('-----------------------------')
 
-def quitar_propiedad():                                                                        
+def quitar_propiedad():     
+
     with open('propiedades.csv', 'r') as file:
         reader = csv.reader(file, delimiter=";")
         propiedades = list(reader)
+
     lista_completa = []
+
     for i in propiedades:
         lista_completa.append(i)
+
     print(tabulate(lista_completa, headers=["Código", "Barrio", "Dirección", "Ambientes", "Precio", "Superficie", "Tipo"], tablefmt="fancy_grid"))
+    
     direccion = input('Ingrese la direccion de la propiedad que desea eliminar: ')
     direccion = direccion.lower()
+    
     for i in propiedades:
         if direccion == i[2].lower():
             propiedades.remove(i)
             with open('propiedades.csv', 'w', newline='') as file:
                 writer = csv.writer(file, delimiter=";")
                 writer.writerows(propiedades)
+                limpiar_consola()
                 print('------------------------------------')
                 print("Propiedad eliminada exitosamente.")
                 print('------------------------------------')
