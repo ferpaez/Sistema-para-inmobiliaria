@@ -33,6 +33,7 @@ def validador_direccion_administracion(direccion):
             direcciones_ingresadas.append(direccion2)
             
         #valida direccion
+        direccion = direccion.lower()
         if (direccion  not in direcciones_ingresadas):
             print('La direccion es valida')
             return direccion

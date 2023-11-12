@@ -55,6 +55,7 @@ def mostrar_citas_disponibles():
     with open('busquedafiltrada.csv', 'r') as file:
         reader = csv.reader(file, delimiter=";")
         lista_filtrada = list(reader)
+    
     if lista_filtrada != []:
         mostrar_propiedades(lista_filtrada)
     else:
@@ -63,9 +64,9 @@ def mostrar_citas_disponibles():
     with open('citas.csv', 'r') as file:
         reader = csv.reader(file, delimiter=";") 
         citas_tabulate = []
-        for row in reader:
-            if row[2] == "":
-                citas_tabulate.append([row[0], row[1]])
+        for i in reader:
+            if i[2] == "":
+                citas_tabulate.append([i[0], i[1]])
         print(tabulate(citas_tabulate, headers=["Fecha", "Horario"], tablefmt="fancy_grid"))
 
 
@@ -145,13 +146,15 @@ def borrar_cita():
     horario = input("Ingrese el horario de la cita (hh:mm): ")
     with open('citas.csv', 'r') as file:
         reader = csv.reader(file, delimiter=";")
-        rows = list(reader)
-    for row in rows:
+        citas = list(reader)
+    for row in citas:
         if dia == row[0] and horario == row[1]:
-            row[2] = ""
+            row[2] = "" 
+            row[3] = "" 
+            row[4] = ""
             with open('citas.csv', 'w', newline='') as file:
                 writer = csv.writer(file, delimiter=";")
-                writer.writerows(rows)
+                writer.writerows(citas)
                 limpiar_consola()
                 print('-----------------------------')
                 print("Cita borrada exitosamente.")
