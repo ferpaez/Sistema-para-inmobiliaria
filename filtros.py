@@ -1,5 +1,4 @@
 import csv
-import os
 from administracion import limpiar_consola
 from tabulate import tabulate
 

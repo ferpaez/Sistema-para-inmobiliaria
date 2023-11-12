@@ -13,7 +13,6 @@ def agregar_propiedad():
         if valida != None:
             break
         else:
-            limpiar_consola()
             print("El codigo ingresado no es valido o ya esta en uso. Por favor, ingrese un código valido.")
     
     while True:

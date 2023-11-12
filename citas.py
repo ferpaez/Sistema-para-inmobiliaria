@@ -142,10 +142,7 @@ def borrar_cita():
     
     ver_citas_agendadas()
     dia = input("Ingrese la fecha de la cita (dd/mm/yyyy): ")
-    #validador dia
-    dia = dia
     horario = input("Ingrese el horario de la cita (hh:mm): ")
-    #validador horario
     with open('citas.csv', 'r') as file:
         reader = csv.reader(file, delimiter=";")
         rows = list(reader)

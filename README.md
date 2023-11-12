@@ -10,3 +10,5 @@ Ademas, agregamos la posibilidad de agendar citas para poder visitar los inmuebl
 El programa va a estar enfocado en que el usuario sea el empleado de la inmobiliaria y lo use para poder atender mejor a los clientes accediendo rapidamente a la informacion y pudiendo agendar citas sin necesidad de corroborar en una agenda fisica, ya que el sistema lo va a realizar por si mismo. A su vez, el empleado va a poder acceder a las citas agendadas las cuales van a estar guardadas en un archivo .csv
 
 El sistema se va a realizar en python guardando la informacion en archivos externos .csv y/o .json
+
+CONTRASEÑA PARA ADMINISTRADOR = admin123

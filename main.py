@@ -1,13 +1,6 @@
-import csv
-from citas import agendar_cita, borrar_cita, ver_citas_agendadas, mostrar_citas_disponibles, contador_visitas, citas, descargar_agenda
-from filtros import mostrar_propiedades, filtrar_por_barrio, filtrar_por_ambientes, filtrar_por_precio, menu_filtrado, vaciar_busqueda_filtrada
+from citas import agendar_cita, borrar_cita, ver_citas_agendadas, contador_visitas, citas, descargar_agenda
+from filtros import menu_filtrado, vaciar_busqueda_filtrada
 from administracion import agregar_propiedad, quitar_propiedad, limpiar_consola
-from tabulate import tabulate
-import os
-
-#pip install tabulate
-#or
-#pip3 install tabulate
 
 # main menu
 
