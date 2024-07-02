@@ -1,4 +1,4 @@
-# Proyecto final de metodologia de la programacion.
+
 # Sistema para gestion inmobiliaria
 
 Este proyecto se basa en realizar el sistema para una inmobiliaria en el cual se pueda buscar inmuebles disponibles con la posiblidad de utlizar filtros en la busqueda (como por ejemplo, barrio, cantidad de ambientes, precio minimo y maximo, etc)
